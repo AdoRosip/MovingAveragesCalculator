@@ -3,31 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stock Moving Averages</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-      }
-      form {
-        margin: 20px;
-      }
-      input,
-      select,
-      button {
-        margin: 5px;
-        padding: 10px;
-        font-size: 16px;
-      }
-      img {
-        margin-top: 20px;
-        width: 80%;
-        max-width: 800px;
-      }
-    </style>
+    <title>Stock Moving Averages & Bollinger Bands</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
   </head>
   <body>
-    <h1>Stock Moving Averages Calculator</h1>
+    <h1>Stock Moving Averages & Bollinger Bands</h1>
 
     <form method="POST">
       <label>Stock Ticker:</label>
@@ -36,24 +19,61 @@
       <label>Select SMA Periods:</label>
       <select name="sma_periods" multiple>
         <option value="10" {% if 10 in sma_periods %}selected{% endif %}>
-          10-Day
+          10-Day SMA
         </option>
         <option value="20" {% if 20 in sma_periods %}selected{% endif %}>
-          20-Day
+          20-Day SMA
         </option>
         <option value="50" {% if 50 in sma_periods %}selected{% endif %}>
-          50-Day
+          50-Day SMA
         </option>
         <option value="100" {% if 100 in sma_periods %}selected{% endif %}>
-          100-Day
+          100-Day SMA
         </option>
       </select>
+
+      <label>Select EMA Periods:</label>
+      <select name="ema_periods" multiple>
+        <option value="10" {% if 10 in ema_periods %}selected{% endif %}>
+          10-Day EMA
+        </option>
+        <option value="20" {% if 20 in ema_periods %}selected{% endif %}>
+          20-Day EMA
+        </option>
+        <option value="50" {% if 50 in ema_periods %}selected{% endif %}>
+          50-Day EMA
+        </option>
+        <option value="100" {% if 100 in ema_periods %}selected{% endif %}>
+          100-Day EMA
+        </option>
+      </select>
+
+      <label>Show Bollinger Bands:</label>
+      <input
+        type="checkbox"
+        name="bollinger"
+        {%
+        if
+        show_bollinger
+        %}checked{%
+        endif
+        %}
+      />
 
       <button type="submit">Get Chart</button>
     </form>
 
     {% if image %}
     <img src="data:image/png;base64,{{ image }}" alt="Stock Chart" />
+    {% endif %} {% if stock_analysis %}
+    <div class="analysis-section">
+      <h2>Stock Analysis</h2>
+      <ul>
+        {% for insight in stock_analysis %}
+        <li>{{ insight }}</li>
+        {% endfor %}
+      </ul>
+    </div>
     {% endif %}
   </body>
 </html>
