@@ -19,19 +19,13 @@ def analyze_stock(stock_data):
     latest_price = float(stock_data["Close"].dropna().iloc[-1])
     analysis = []
 
-    print("\n---- DEBUG INFO ----")
-    print(f"Latest Price: {latest_price}")
-
     # Ensure SMA_20 exists and has valid values
     if "SMA_20" in stock_data:
-        print(f"SMA_20 Last 5 Values:\n{stock_data['SMA_20'].tail()}")  # Debugging print
         clean_sma = stock_data["SMA_20"].dropna()
 
         if not clean_sma.empty:
             latest_sma = clean_sma.iloc[-1]  # Ensure only a single value is used
-            print(f"Latest SMA_20: {latest_sma}")  # Debugging print
-            print(f"comapre latest_price,")
-            print(f"comapre latestSMA,{latest_sma}")
+
             if latest_price > float(latest_sma):  # Convert to float for safety
                 analysis.append("📈 The stock is trading above its 20-day SMA, which may indicate an uptrend.")
             else:
@@ -41,12 +35,10 @@ def analyze_stock(stock_data):
 
     # Ensure EMA_10 exists and has valid values
     if "EMA_10" in stock_data:
-        print(f"EMA_10 Last 5 Values:\n{stock_data['EMA_10'].tail()}")  # Debugging print
         clean_ema = stock_data["EMA_10"].dropna()
 
         if not clean_ema.empty:
             latest_ema = clean_ema.iloc[-1]  # Ensure only a single value is used
-            print(f"Latest EMA_10: {latest_ema}")  # Debugging print
 
             if latest_price > float(latest_ema):  # Convert to float for safety
                 analysis.append("✅ The stock is above its 10-day EMA, signaling short-term bullish momentum.")
@@ -57,8 +49,7 @@ def analyze_stock(stock_data):
 
     # Ensure Bollinger Bands exist and are not empty
     if "BB_Upper" in stock_data and "BB_Lower" in stock_data:
-        print(f"BB_Upper Last 5 Values:\n{stock_data['BB_Upper'].tail()}")  # Debugging print
-        print(f"BB_Lower Last 5 Values:\n{stock_data['BB_Lower'].tail()}")  # Debugging print
+
 
         clean_bb_upper = stock_data["BB_Upper"].dropna()
         clean_bb_lower = stock_data["BB_Lower"].dropna()
@@ -66,8 +57,6 @@ def analyze_stock(stock_data):
         if not clean_bb_upper.empty and not clean_bb_lower.empty:
             latest_bb_upper = clean_bb_upper.iloc[-1]  # Ensure only a single value is used
             latest_bb_lower = clean_bb_lower.iloc[-1]  # Ensure only a single value is used
-            print(f"Latest BB_Upper: {latest_bb_upper}")  # Debugging print
-            print(f"Latest BB_Lower: {latest_bb_lower}")  # Debugging print
 
             if latest_price > float(latest_bb_upper):  # Convert to float for safety
                 analysis.append("🚀 The stock price is above the upper Bollinger Band, suggesting it may be overbought.")
