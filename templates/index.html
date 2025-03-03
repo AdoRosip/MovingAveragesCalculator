@@ -11,7 +11,6 @@
   </head>
   <body>
     <h1>Stock Moving Averages & Bollinger Bands</h1>
-
     <form method="POST">
       <label>Stock Ticker:</label>
       <input type="text" name="ticker" value="{{ ticker }}" required />
@@ -62,18 +61,19 @@
 
       <button type="submit">Get Chart</button>
     </form>
-
-    {% if image %}
-    <img src="data:image/png;base64,{{ image }}" alt="Stock Chart" />
-    {% endif %} {% if stock_analysis %}
-    <div class="analysis-section">
-      <h2>Stock Analysis</h2>
-      <ul>
-        {% for insight in stock_analysis %}
-        <li>{{ insight }}</li>
-        {% endfor %}
-      </ul>
+    <div class="data-container">
+      {% if image %}
+      <img src="data:image/png;base64,{{ image }}" alt="Stock Chart" />
+      {% endif %} {% if stock_analysis %}
+      <div class="analysis-section">
+        <h2>Stock Analysis</h2>
+        <ul>
+          {% for insight in stock_analysis %}
+          <li>{{ insight }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
   </body>
 </html>

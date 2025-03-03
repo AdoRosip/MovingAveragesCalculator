@@ -73,3 +73,10 @@ img {
   background: #f9f9f9;
   border-radius: 5px;
 }
+
+.data-container {
+  display: flex;
+  flex-direction: row;
+  gap: 4rem;
+  justify-content: center;
+}
