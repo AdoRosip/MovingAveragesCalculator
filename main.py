@@ -14,6 +14,11 @@ def fetch_stock_data(ticker, period="1y"):
     stock_data = yf.download(ticker, period=period)
     return stock_data
 
+def fetchRevenuesForStock(ticker):
+    dat = yf.Ticker(ticker)
+    q_Income_Statmenet = dat.quarterly_income_stmt
+    print(q_Income_Statmenet)
+
 def analyze_stock(stock_data):
     """Generate stock interpretation based on indicators."""
     latest_price = float(stock_data["Close"].dropna().iloc[-1])
@@ -107,54 +112,56 @@ def plot_stock_indicators(stock_data, ticker, sma_periods, ema_periods, show_bol
 
     return encoded_image
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    image = None
-    ticker = "AAPL"  # Default stock
-    sma_periods = [10, 50]  # Default SMA
-    ema_periods = [10, 50]  # Default EMA
-    show_bollinger = False
-    stock_analysis = []
+# @app.route("/", methods=["GET", "POST"])
+# def index():
+#     image = None
+#     ticker = "AAPL"  # Default stock
+#     sma_periods = [10, 50]  # Default SMA
+#     ema_periods = [10, 50]  # Default EMA
+#     show_bollinger = False
+#     stock_analysis = []
 
-    if request.method == "POST":
-        ticker = request.form["ticker"]
-        sma_periods = list(map(int, request.form.getlist("sma_periods")))
-        ema_periods = list(map(int, request.form.getlist("ema_periods")))
-        show_bollinger = "bollinger" in request.form
+#     if request.method == "POST":
+#         ticker = request.form["ticker"]
+#         sma_periods = list(map(int, request.form.getlist("sma_periods")))
+#         ema_periods = list(map(int, request.form.getlist("ema_periods")))
+#         show_bollinger = "bollinger" in request.form
 
-    try:
-        stock_data = fetch_stock_data(ticker)
+#     try:
+#         stock_data = fetch_stock_data(ticker)
 
-        # Ensure SMA_20 is always calculated
-        stock_data["SMA_20"] = stock_data["Close"].rolling(window=20).mean()
+#         # Ensure SMA_20 is always calculated
+#         stock_data["SMA_20"] = stock_data["Close"].rolling(window=20).mean()
 
-        # Ensure EMA_10 is always calculated
-        stock_data["EMA_10"] = stock_data["Close"].ewm(span=10, adjust=False).mean()
+#         # Ensure EMA_10 is always calculated
+#         stock_data["EMA_10"] = stock_data["Close"].ewm(span=10, adjust=False).mean()
 
-        # Ensure Bollinger Bands are calculated if enabled
-        if show_bollinger:
-            stock_data["BB_Std"] = stock_data["Close"].rolling(window=20).std()
-            stock_data["BB_Upper"] = stock_data["SMA_20"] + (2 * stock_data["BB_Std"])
-            stock_data["BB_Lower"] = stock_data["SMA_20"] - (2 * stock_data["BB_Std"])
+#         # Ensure Bollinger Bands are calculated if enabled
+#         if show_bollinger:
+#             stock_data["BB_Std"] = stock_data["Close"].rolling(window=20).std()
+#             stock_data["BB_Upper"] = stock_data["SMA_20"] + (2 * stock_data["BB_Std"])
+#             stock_data["BB_Lower"] = stock_data["SMA_20"] - (2 * stock_data["BB_Std"])
 
-        # Generate stock analysis
-        stock_analysis = analyze_stock(stock_data)
+#         # Generate stock analysis
+#         stock_analysis = analyze_stock(stock_data)
 
-        # Generate the plot
-        image = plot_stock_indicators(stock_data, ticker, sma_periods, ema_periods, show_bollinger)
+#         # Generate the plot
+#         image = plot_stock_indicators(stock_data, ticker, sma_periods, ema_periods, show_bollinger)
 
-    except Exception as e:
-        print("Error fetching stock data:", e)
+#     except Exception as e:
+#         print("Error fetching stock data:", e)
 
-    return render_template(
-        "index.html",
-        image=image,
-        ticker=ticker,
-        sma_periods=sma_periods,
-        ema_periods=ema_periods,
-        show_bollinger=show_bollinger,
-        stock_analysis=stock_analysis
-    )
+#     return render_template(
+#         "index.html",
+#         image=image,
+#         ticker=ticker,
+#         sma_periods=sma_periods,
+#         ema_periods=ema_periods,
+#         show_bollinger=show_bollinger,
+#         stock_analysis=stock_analysis
+#     )
+
+fetchRevenuesForStock("AAPL")
 
 
 if __name__ == "__main__":
