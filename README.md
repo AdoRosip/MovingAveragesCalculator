@@ -98,7 +98,3 @@ Lower Band = SMA_20 - (2 * Std Dev)
 - ✅ **Enhance the UI with Bootstrap or Tailwind**
 
 ---
-
-📌 **Author:** [Your Name]  
-📌 **License:** MIT  
-📌 **Contributions:** Open for pull requests! 🚀
