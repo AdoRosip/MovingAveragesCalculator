@@ -19,19 +19,6 @@ This project is a **Flask web application** that allows users to analyze stock p
 - **Data Processing**: Pandas, Matplotlib, yfinance
 - **Frontend**: HTML, CSS, Jinja2
 
-## 📂 Project Structure
-
-```
-📁 movingAveragesCalculator/
-│── 📁 static/           # CSS stylesheets
-│   └── style.css
-│── 📁 templates/        # HTML templates
-│   └── index.html
-│── main.py             # Flask backend
-│── requirements.txt    # Dependencies
-│── README.md           # Documentation
-```
-
 ## 📌 How to Run the App
 
 1. **Clone the repository**
